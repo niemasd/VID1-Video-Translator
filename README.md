@@ -45,3 +45,7 @@ Next, we will use the source-compiled `ffmpeg` to remux the translated video str
 ```
 
 This does ***not*** re-encode the video or audio stream: it's directly remuxing them into an MKV container.
+
+# Acknowledgements
+* [Paul B Mahol's VID1 container demuxer code](https://github.com/librempeg/librempeg/blob/f3b1734d25ad2baf023af729cca7a0e30427d8a1/libavformat/vid1.c)
+* [MultimediaWiki's VID1 video codec description](https://wiki.multimedia.cx/index.php/Factor_5_VID1#Video_codec)
