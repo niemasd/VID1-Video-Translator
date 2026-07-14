@@ -3,6 +3,8 @@ On the Nintendo GameCube, some video files were stored in the [Factor 5 VID1](ht
 
 The Factor 5 VID1 ***video codec*** is [very similar to MPEG-4 ASP](https://wiki.multimedia.cx/index.php/Factor_5_VID1#Video_codec). Based on these similarities, [`vid1_to_m4v.py`](vid1_to_m4v.py) takes as input a VID1 `.vid` file, and it ***translates*** (no re-encoding!) the video stream into a standard MPEG-4 Visual Elementary Stream `.m4v` file. You can then compile `ffmpeg` from the latest source code to remux the translated video stream from the `.m4v` file and the original audio stream from the `.vid` file into a desired output container (e.g. `.mkv`).
 
+This seems to work for a good number of VID1 files, but there are many files this approach is incompatible with. To truly archive these videos, we need a proper VID1 video codec decoder (rather than my translator) so we can decode VID1 video streams into a lossless format (e.g. [FFV1](https://en.wikipedia.org/wiki/FFV1)).
+
 # Usage
 Basic usage of the [`vid1_to_m4v.py`](vid1_to_m4v.py) is as follows (and full usage details can be viewed using the `-h/--help` argument):
 
