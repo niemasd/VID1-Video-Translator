@@ -17,11 +17,12 @@ Limitations:
 '''
 # imports
 import argparse
-from dataclasses import dataclass
 import io
 import math
 import os
 import sys
+from dataclasses import dataclass
+from pathlib import Path
 from typing import BinaryIO, Iterator, Optional
 
 # constants
@@ -606,9 +607,23 @@ def main(argv: Optional[list[str]] = None) -> None:
     parser.add_argument('--height', required=False, type=int, default=None, help="Override height if VIDH parsing fails")
     parser.add_argument('--resync-scan', action='store_true', help="Scan forward for the next known VID1 chunk after an unknown tag")
     parser.add_argument('--vidd-header-skip', required=False, type=int, default=4, help="Bytes to skip after VIDD size before the VID1 picture header (librempeg currently uses 6)")
+    parser.add_argument('--overwrite', action='store_true', help="Overwrite Output File")
     parser.add_argument('-v', '--verbose', action='store_true', help="Show Verbose Messages")
     args = parser.parse_args(argv)
-    convert(args)
+    args.input = Path(args.input)
+    if not args.input.is_file():
+        raise ValueError(f"File not found: {args.input}")
+    args.output = Path(args.output)
+    if args.output.exists():
+        if args.overwrite and args.output.is_file():
+            args.output.unlink(missing_ok=True)
+        else:
+            raise ValueError(f"Output exists: {args.output}")
+    try:
+        convert(args)
+    except Exception as e:
+        args.output.unlink(missing_ok=True)
+        raise e
 
 # run program
 if __name__ == "__main__":
